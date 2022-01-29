@@ -5,79 +5,30 @@
             :showAddTask="showAddTask"
             title="Task Tracker"
         />
-        <AddTask v-show="showAddTask" @add-task="addTask" />
-        <Tasks
-            @delete-task="deleteTask"
-            @toggle-reminder="toggleReminder"
-            :tasks="tasks"
-        />
+        <router-view :showAddTask="showAddTask"></router-view>
+        <Footer />
     </div>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
-import Tasks from "./components/Tasks.vue";
-import AddTask from "./components/AddTask.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
     name: "App",
     components: {
         Header,
-        Tasks,
-        AddTask,
+        Footer,
     },
     data() {
         return {
-            tasks: [],
             showAddTask: false,
         };
     },
     methods: {
-        addTask(task) {
-            this.tasks = [...this.tasks, task];
-        },
-        deleteTask(id) {
-            if (confirm("Are you sure you want to delete this task?")) {
-                this.tasks = this.tasks.filter(task => task.id !== id);
-            }
-        },
-        toggleReminder(id) {
-            this.tasks = this.tasks.map(task => {
-                if (task.id === id) {
-                    return {
-                        ...task,
-                        reminder: !task.reminder,
-                    };
-                } else {
-                    return task;
-                }
-            });
-        },
         toggleShowAddTask() {
             this.showAddTask = !this.showAddTask;
         },
-    },
-    created() {
-        this.tasks = [
-            {
-                id: 1,
-                text: "Doctors Appointment",
-                day: "March 1st at 2:30 PM",
-                reminder: true,
-            },
-            {
-                id: 2,
-                text: "Meeting at School",
-                day: "March 3rd at 1:30 PM",
-                reminder: true,
-            },
-            {
-                id: 3,
-                text: "Food Shopping",
-                day: "March 3rd at 11:30 AM",
-                reminder: false,
-            },
-        ];
     },
 };
 </script>
